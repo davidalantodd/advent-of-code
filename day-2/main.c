@@ -6,7 +6,8 @@ int main() {
 
     //create variables for each line's content, total points, turns
     char lineContent[5];
-    int totalPoints = 0;
+    int totalPointsRPS = 0; //total points for part 1 (second column is rock/paper/scissors)
+    int totalPointsLWD = 0; //total points for part 2 (second column is lose/win/draw)
     char opponentTurn;
     char yourTurn;
 
@@ -26,33 +27,43 @@ int main() {
         //if opponent plays rock
         if (opponentTurn == 'A'){       
             if (yourTurn == 'Y'){
-                totalPoints += (6 + 2);       //win with paper
+                totalPointsRPS += (6 + 2);       //win with paper
+                totalPointsLWD += (3 + 1);       //part 2 version..
             } else if (yourTurn == 'X'){
-                totalPoints += (3 + 1);       //tie with rock
+                totalPointsRPS += (3 + 1);       //tie with rock
+                totalPointsLWD += (0 + 3);       //part 2 version..
             } else {
-                totalPoints += 3; //played scissors
+                totalPointsRPS += 3; //played scissors
+                totalPointsLWD += (6 + 2);       //part 2 version..
             }
         //if opponent plays paper
         } else if (opponentTurn == 'B'){    
             if (yourTurn == 'Z'){
-                totalPoints += (6 + 3);       //win with scissors
+                totalPointsRPS += (6 + 3);       //win with scissors
+                totalPointsLWD += (6 + 3);       //part 2 version..
             } else if (yourTurn == 'Y'){
-                totalPoints += (3 + 2);       //tie with paper
+                totalPointsRPS += (3 + 2);       //tie with paper
+                totalPointsLWD += (3 + 2);       //part 2 version..
             } else {
-                totalPoints += 1; //played rock
+                totalPointsRPS += 1; //played rock
+                totalPointsLWD += (0 + 1);       //part 2 version..
             }
         //if opponent plays scissors
         } else if (opponentTurn == 'C'){
             if (yourTurn == 'X'){
-                totalPoints += (6 + 1);       //win with rock
+                totalPointsRPS += (6 + 1);       //win with rock
+                totalPointsLWD += (0 + 2);       //part 2 version..
             } else if (yourTurn == 'Z'){
-                totalPoints += (3 + 3);       //tie with scissors
+                totalPointsRPS += (3 + 3);       //tie with scissors
+                totalPointsLWD += (6 + 1);       //part 2 version..
             } else {
-                totalPoints += 2; //played paper
+                totalPointsRPS += 2; //played paper
+                totalPointsLWD += (3 + 3);       //part 2 version..
             }
         }
 
-        // printf("%i", totalPoints);
+
+        // printf("%i", totalPointsLWD);
         // printf("%s", lineContent);
         // printf("%c\n", opponentTurn);
         // printf("%c\n", yourTurn);
@@ -63,7 +74,8 @@ int main() {
 
     
     //print sum of points
-    printf("Your total Score is: %i", totalPoints);
+    printf("Your total Score is: %i\n", totalPointsRPS);
+    printf("In part 2 version (LWD), your total Score is: %i\n", totalPointsLWD);
 
     return 0;
 }
