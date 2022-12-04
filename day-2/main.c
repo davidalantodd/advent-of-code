@@ -62,7 +62,6 @@ int main() {
             }
         }
 
-
         // printf("%i", totalPointsLWD);
         // printf("%s", lineContent);
         // printf("%c\n", opponentTurn);
@@ -72,7 +71,6 @@ int main() {
     //stop reading file
     fclose(fPtr);
 
-    
     //print sum of points
     printf("Your total Score is: %i\n", totalPointsRPS);
     printf("In part 2 version (LWD), your total Score is: %i\n", totalPointsLWD);
