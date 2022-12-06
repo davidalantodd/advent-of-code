@@ -9,9 +9,8 @@ import (
 )
 
 func main() {
-	// fmt.Println("Hello world.")
 
-	content, err := ioutil.ReadFile("example.txt")
+	content, err := ioutil.ReadFile("data.txt")
 
 	if err != nil {
 		log.Fatal(err)
@@ -59,6 +58,7 @@ func main() {
 
 	//iterate through the stacks and create 2D slices to represent stacks
 	stacks := make([][]string, numStacks)
+	stacksCopy := make([][]string, numStacks)
 	for i := 0; i < numStacks; i++ {
 		oneStack := []string{}
 		for j := lenCrates-1; j >= 0; j-- {
@@ -66,6 +66,8 @@ func main() {
 			if string(crates[j][int(1+(i*4))]) != " " {
 				oneStack = append(oneStack, string(crates[j][int(1+(i*4))]))
 				stacks[i] = append(stacks[i], string(crates[j][int(1+(i*4))]))
+				stacksCopy[i] = append(stacksCopy[i], string(crates[j][int(1+(i*4))]))
+
 			}
 		}
 		// fmt.Println("oneStack: ",oneStack)
@@ -73,9 +75,9 @@ func main() {
 		// stacks[i] = make([]int, 0)
 	}
 
-	// fmt.Println(stacks)
+	// fmt.Println("stacks ", stacks)
+	// fmt.Println("stacksCopy: ", stacksCopy)
 
-	stacksCopy := stacks
 
 	//iterate through the moves to move the crates from stack to stack
 	for i := 0; i < len(procedure); i++{
@@ -95,8 +97,9 @@ func main() {
 		// fmt.Println(stacks)
 	}
 
-	fmt.Println("stacksCopy", stacksCopy)
-	fmt.Println("stacks", stacks)
+	// fmt.Println("stacksCopy", stacksCopy)
+	// fmt.Println("stacks", stacks)
+
 	//part 2 - iterate through the moves to move the crates in groups
 	for i := 0; i < len(procedure); i++{
 		splitMoves := strings.Split(string(procedure[i]), " ")
@@ -104,36 +107,27 @@ func main() {
 		from, err := strconv.Atoi(splitMoves[3])
 		to, err := strconv.Atoi(splitMoves[5])
 
-		
 		groupOfCrates:=[]string{}
-		fmt.Println(stacksCopy, i, procedure[i])
-		groupOfCrates = stacksCopy[from-1][len(stacksCopy[from-1])-1-whatMove:len(stacksCopy[from-1])-1]
-		stacksCopy[from-1] = stacksCopy[from-1][:len(stacksCopy[from-1])-1-whatMove]
-		stacksCopy[to-1] = append(stacksCopy[to-1], groupOfCrates...)
-
-		if err != nil {fmt.Println(err)}
-		// fmt.Println(string(procedure[i]))
+		groupOfCrates = stacksCopy[from-1][len(stacksCopy[from-1])-whatMove:len(stacksCopy[from-1])]
+		// fmt.Println("group of crates", groupOfCrates)
 		
-		// groupOfCrates:=[]string{}
-		// for j:=0; j < whatMove; j++{
-		// 	groupOfCrates = append([]string{stacksCopy[from-1][len(stacksCopy[from-1])-1]}, groupOfCrates...)
-		// 	stacksCopy[from-1] = stacksCopy[from-1][:len(stacksCopy[from-1])-1]
-		// 	// fmt.Println(whatMove)
-		// 	if err != nil {fmt.Println(err)}
-		// 	// fmt.Println(string(procedure[i]))
-		// }
-
-		fmt.Println(stacksCopy)
+		stacksCopy[from-1] = stacksCopy[from-1][:len(stacksCopy[from-1])-whatMove]
+		stacksCopy[to-1] = append(stacksCopy[to-1], groupOfCrates...)
+		// fmt.Println(stacksCopy, i, procedure[i])
+		if err != nil {fmt.Println(err)}
 	}
-
 
 	//iterate through stacks to find final solution
 	finalCratesOnTop := ""
+	finalCratesOnTopPart2 := ""
 	for i := 0; i < numStacks; i++ {
 		finalCratesOnTop += stacks[i][len(stacks[i])-1]
+		finalCratesOnTopPart2 += stacksCopy[i][len(stacksCopy[i])-1]
 	}
 
 	fmt.Println("solution to part 1: ", finalCratesOnTop)
+	fmt.Println("solution to part 2: ", finalCratesOnTopPart2)
+
 }
 
 //to run, go run solution.go
