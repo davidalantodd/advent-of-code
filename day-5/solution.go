@@ -75,10 +75,6 @@ func main() {
 		// stacks[i] = make([]int, 0)
 	}
 
-	// fmt.Println("stacks ", stacks)
-	// fmt.Println("stacksCopy: ", stacksCopy)
-
-
 	//iterate through the moves to move the crates from stack to stack
 	for i := 0; i < len(procedure); i++{
 		splitMoves := strings.Split(string(procedure[i]), " ")
