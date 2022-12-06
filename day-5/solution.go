@@ -33,14 +33,16 @@ func main() {
 			crates = append(crates, string(tempString))
 			tempString = ""
 		}
-		fmt.Println(character)
+		// fmt.Print(character, "- ")
+		// fmt.Println(string(character))
 	}
 	crates = append(crates, string(tempString))
 
 	lenCrates := len(crates)
 	numStacksStr := string(crates[lenCrates-1][len(crates[lenCrates-1])-2])
 	numStacks, err := strconv.Atoi(numStacksStr)
-	fmt.Println(numStacks)
+	// fmt.Println(numStacks)
+	tempString=""
 
 	//iterate over the procedure with for-each range loop
 	for _, character := range data[1] {
@@ -53,23 +55,85 @@ func main() {
 	}
 
 	procedure = append(procedure, string(tempString))
-	fmt.Println(len(procedure))
+	// fmt.Println(len(procedure))
 
+	//iterate through the stacks and create 2D slices to represent stacks
 	stacks := make([][]string, numStacks)
 	for i := 0; i < numStacks; i++ {
 		oneStack := []string{}
-		for j := lenCrates - 1; j >= 0; j-- {
-			if string(crates[j][int(i)]) != " " {
+		for j := lenCrates-1; j >= 0; j-- {
+			// fmt.Println("crates:", (crates[j]))
+			if string(crates[j][int(1+(i*4))]) != " " {
 				oneStack = append(oneStack, string(crates[j][int(1+(i*4))]))
 				stacks[i] = append(stacks[i], string(crates[j][int(1+(i*4))]))
-			} else {
-				fmt.Println("found a space")
 			}
 		}
-		fmt.Println(oneStack)
-		fmt.Println(len(oneStack))
+		// fmt.Println("oneStack: ",oneStack)
+		// fmt.Println(len(oneStack))
 		// stacks[i] = make([]int, 0)
 	}
+
+	// fmt.Println(stacks)
+
+	stacksCopy := stacks
+
+	//iterate through the moves to move the crates from stack to stack
+	for i := 0; i < len(procedure); i++{
+		splitMoves := strings.Split(string(procedure[i]), " ")
+		whatMove, err := strconv.Atoi(splitMoves[1])
+		from, err := strconv.Atoi(splitMoves[3])
+		to, err := strconv.Atoi(splitMoves[5])
+
+		for j:=0; j < whatMove; j++{
+			crateToMove := stacks[from-1][len(stacks[from-1])-1]
+			stacks[from-1] = stacks[from-1][:len(stacks[from-1])-1]
+			// fmt.Println(whatMove)
+			stacks[to-1] = append(stacks[to-1], crateToMove)
+			if err != nil {fmt.Println(err)}
+			// fmt.Println(string(procedure[i]))
+		}
+		// fmt.Println(stacks)
+	}
+
+	fmt.Println("stacksCopy", stacksCopy)
+	fmt.Println("stacks", stacks)
+	//part 2 - iterate through the moves to move the crates in groups
+	for i := 0; i < len(procedure); i++{
+		splitMoves := strings.Split(string(procedure[i]), " ")
+		whatMove, err := strconv.Atoi(splitMoves[1])
+		from, err := strconv.Atoi(splitMoves[3])
+		to, err := strconv.Atoi(splitMoves[5])
+
+		
+		groupOfCrates:=[]string{}
+		fmt.Println(stacksCopy, i, procedure[i])
+		groupOfCrates = stacksCopy[from-1][len(stacksCopy[from-1])-1-whatMove:len(stacksCopy[from-1])-1]
+		stacksCopy[from-1] = stacksCopy[from-1][:len(stacksCopy[from-1])-1-whatMove]
+		stacksCopy[to-1] = append(stacksCopy[to-1], groupOfCrates...)
+
+		if err != nil {fmt.Println(err)}
+		// fmt.Println(string(procedure[i]))
+		
+		// groupOfCrates:=[]string{}
+		// for j:=0; j < whatMove; j++{
+		// 	groupOfCrates = append([]string{stacksCopy[from-1][len(stacksCopy[from-1])-1]}, groupOfCrates...)
+		// 	stacksCopy[from-1] = stacksCopy[from-1][:len(stacksCopy[from-1])-1]
+		// 	// fmt.Println(whatMove)
+		// 	if err != nil {fmt.Println(err)}
+		// 	// fmt.Println(string(procedure[i]))
+		// }
+
+		fmt.Println(stacksCopy)
+	}
+
+
+	//iterate through stacks to find final solution
+	finalCratesOnTop := ""
+	for i := 0; i < numStacks; i++ {
+		finalCratesOnTop += stacks[i][len(stacks[i])-1]
+	}
+
+	fmt.Println("solution to part 1: ", finalCratesOnTop)
 }
 
-//to run, go run solution
+//to run, go run solution.go
