@@ -129,5 +129,3 @@ func main() {
 	fmt.Println("solution to part 2: ", finalCratesOnTopPart2)
 
 }
-
-//to run, go run solution.go
