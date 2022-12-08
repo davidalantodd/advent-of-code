@@ -77,8 +77,6 @@ def FindTotals(current_directory)
             FindTotals(current_directory.directories[dir_name])
         end
     elsif
-        p current_directory.directories.keys
-        p current_directory.files.keys
         temp_total = current_directory.files.inject(0) {|sum, files|
             sum += Integer(files[1]).dup
         }
@@ -108,6 +106,7 @@ part1_sum = 0
 
 p file_system
 
+#sum up all total sizes
 @directory_totals.each do |dir_name, totals|
     if @directory_totals[dir_name] <= 100000
         part1_sum += @directory_totals[dir_name].dup
@@ -117,4 +116,26 @@ end
 p @directory_totals
 
 
+#part 2 -- delete to make room
+p total_disk = 70000000
+p needed_space = 30000000
+
+#calculate space needed
+unused_space = (total_disk - @directory_totals["/"])
+difference_to_make = needed_space - unused_space
+p difference_to_make
+
+delete_options = []
+
+#find all directories with appropriate size
+@directory_totals.each do |dir_name, totals|
+    if @directory_totals[dir_name] >= 4274331
+        delete_options << @directory_totals[dir_name]
+    end
+end
+
+#sort to find smallest
+delete_options.sort!
+
 puts "\n" + "part 1 solution: " + part1_sum.to_s
+puts "part 2 solution: " + String(delete_options[0])
