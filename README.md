@@ -1,3 +1,8 @@
-# Advent of Code 2022
+# Advent of Code
 
-Completion of the [advent of code challenge (Dec 2022)](https://adventofcode.com/2022)
+### Solutions to [Advent of Code](https://adventofcode.com):
+
+|Year|Language(s)|
+|-|-|
+|[2023](/2023/)||
+|[2022](/2022/)|Ruby, Python, JavaScript, C, Go|
