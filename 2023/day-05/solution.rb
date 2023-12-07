@@ -1,5 +1,5 @@
 def solution
-    file = File.read('example.txt').split("\n")
+    file = File.read('test.txt').split("\n")
     seeds = []
     seeds_part2 = []
     orig_seeds = []
@@ -30,12 +30,12 @@ def solution
             # matching type of conversion
             category = line.match(/-to-(.*) /)
             current_category_flag = category[1]
-            # p category[1]
+            p category[1]
             # p current_category_flag
         elsif line == ""
             # empty line
             # p '-------'
-            # p seeds_part2
+            p seeds_part2
             changed.map! { |c| c = 0}
             changed_part2.map! { |c| c = [0,0]}
         else
@@ -71,40 +71,61 @@ end
 # part 2
 def convert_ranges(seeds, numbers, changed)
     range_to_add = []
-    seeds.map!.with_index { |s, i| 
+    seeds.map!.with_index { |s, i|
+        orig_s = Array.new(s)
         # if range is split in half
         # p numbers[1].to_i + numbers[2].to_i
         # p s
-        if (numbers[1].to_i + numbers[2].to_i).to_i >= s[0].to_i && (numbers[1].to_i + numbers[2].to_i).to_i < s[1].to_i && changed[i][0] != 1
-            range_to_add = [numbers[1].to_i + numbers[2].to_i, s[1]]
-            s[1] = ((numbers[1].to_i + numbers[2].to_i - 1) - ((numbers[1].to_i - numbers[0].to_i).abs)).abs
-            # p s
+        p seeds
+        if (numbers[1].to_i + numbers[2].to_i).to_i > orig_s[0].to_i && (numbers[1].to_i + numbers[2].to_i).to_i < orig_s[1].to_i && changed[i][0] != 1
+            # p numbers
+            # p 'hi'
+            p s
+            range_to_add = [numbers[1].to_i + numbers[2].to_i, orig_s[1]]
+            # p range_to_add
+            p 'first'
+            seeds[seeds.length] = range_to_add
+            changed[changed.length] = [0,0]
+            s[1] = numbers[1].to_i - 1
+            p seeds
+            p 'what'
+            p s
+            p numbers
             changed[i][1] = 1
         end
-        if (numbers[1].to_i) >= s[0].to_i && (numbers[1].to_i) < s[1].to_i && changed[i][0] != 1
+        if (numbers[1].to_i) >= orig_s[0].to_i && (numbers[1].to_i) < orig_s[1].to_i && changed[i][0] != 1
+            # p numbers
+            # p 'hehe'
+            p 'second'
             range_to_add = [s[0].to_i, numbers[1].to_i - 1]
+            # p range_to_add
+            seeds[seeds.length] = range_to_add
+            changed[changed.length] = [0,0]
             s[0] = ((numbers[1].to_i) - ((numbers[1].to_i - numbers[0].to_i)).abs).abs
-            # p s
+            p s
+            p numbers
             changed[i][0] = 1
         end
         # processing each endpoint in range
         if (s[0] >= numbers[1].to_i && s[0] < (numbers[1].to_i + numbers[2].to_i) && changed[i][0] == 0)
             s[0] = (s[0] - (numbers[1].to_i - numbers[0].to_i)).abs
             changed[i][0] = 1
+            # p numbers
         end
         if (s[1] >= numbers[1].to_i && s[1] < (numbers[1].to_i + numbers[2].to_i) && changed[i][1] == 0)
             s[1] = (s[1] - (numbers[1].to_i - numbers[0].to_i)).abs
             changed[i][1] = 1
+            # p numbers
         end
-        
+        # p seeds
         
         s
     }
     #add additional endpoints
-    if range_to_add != []
-        seeds[seeds.length] = range_to_add
-        changed[changed.length] = [0,0]
-    end
+    # if range_to_add != []
+    #     seeds[seeds.length] = range_to_add
+    #     changed[changed.length] = [0,0]
+    # end
     return [seeds, changed]
 end
 
