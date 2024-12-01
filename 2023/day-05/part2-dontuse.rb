@@ -1,5 +1,5 @@
 def solution
-    file = File.read('test.txt').split("\n")
+    file = File.read('example.txt').split("\n")
     seeds = []
     seeds_part2 = []
     orig_seeds = []
